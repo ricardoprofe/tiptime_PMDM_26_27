@@ -53,7 +53,7 @@ class TipViewModel : ViewModel() {
      * according to the local currency.
      * Example would be "$10.00".
      */
-    private fun calculateTip(): Unit {
+    private fun calculateTip() {
         // Get the current values from the state
         val amount = _uiState.value.amountInput.toDoubleOrNull() ?: 0.0
         val tipPercent = _uiState.value.tipInput.toDoubleOrNull() ?: 0.0
@@ -65,9 +65,11 @@ class TipViewModel : ViewModel() {
         }
         val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
 
+        val total = NumberFormat.getCurrencyInstance().format(tip + amount)
+
         // Update the state with the calculated tip
         _uiState.update { currentState ->
-            currentState.copy(tip = formattedTip)
+            currentState.copy(tip = formattedTip, total = total)
         }
     }
 }
